@@ -28,22 +28,15 @@ int main(int argc, char **argv) {
   //make sure the context initializes ok
   checkCudaErrors(cudaFree(0));
 
-  switch (argc)
-  {
-	case 2:
-	  input_file = std::string(argv[1]);
-	  output_file = "output.png";
-	  break;
-	default:
-      std::cerr << "Usage: ./to_bw input_file [output_filename]" << std::endl;
-      exit(1);
-  }
+  input_file = std::string(argv[1]);
+  output_file = "output.png";
+
   //load the image and give us our input and output pointers
   preProcess(&h_rgbaImage, &h_greyImage, &d_rgbaImage, &d_greyImage, input_file);
 
   //call the cuda code
   cudaEventRecord(start);
-  rgba_to_grey(d_rgbaImage, d_greyImage, numRows(), numCols(),1024,100);
+  rgba_to_grey(d_rgbaImage, d_greyImage, numRows(), numCols(),argc[2],argc[3]);
   cudaEventRecord(stop);
   cudaEventSynchronize(stop);
 
