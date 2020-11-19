@@ -25,14 +25,18 @@ int main(int argc, char **argv) {
   std::string input_file;
   std::string output_file;
   
-  std::int32_t threads = std::int32_t(argv[2]);
-  std::int32_t blocks = std::int32_t(argv[3]);
 
   //make sure the context initializes ok
   checkCudaErrors(cudaFree(0));
 
   input_file = std::string(argv[1]);
   output_file = "output.png";
+
+  int threads;
+  int blocks;
+
+  sscanf(argv[2], "%i", &threads);
+  sscanf(argv[3], "%i", &blocks);
 
   //load the image and give us our input and output pointers
   preProcess(&h_rgbaImage, &h_greyImage, &d_rgbaImage, &d_greyImage, input_file);
