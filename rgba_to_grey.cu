@@ -6,8 +6,8 @@
 #define TxB 1024
 
 __global__
-void rgba_to_grey_kernel(const uchar4* const rgbaImage,
-                       unsigned char* const greyImage,
+void rgba_to_grey_kernel(const uchar4* const originalImage,
+                       unsigned char* const outImage,
                        int numRows, int numCols, int totalThreads)
 {
 
@@ -15,27 +15,27 @@ void rgba_to_grey_kernel(const uchar4* const rgbaImage,
 
   int id = (blockDim.x * blockIdx.x) + threadIdx.x;
 
-  initIteration = (852*480/totalThreads) * id;
+  initIteration = (720*480/totalThreads) * id;
 
   if (id == totalThreads - 1)
-    endIteration = 852*480;
+    endIteration = 720*480;
   else
-    endIteration = initIteration + ((852*480 / totalThreads));
+    endIteration = initIteration + ((720*480 / totalThreads));
 
   int index = 0;
 
   for (int aux = initIteration; aux < endIteration; aux++){
-    int j = aux % 852;
-    int i = (aux - j) / 852;
+    int j = aux % 720;
+    int i = (aux - j) / 720;
     index = aux * 3;
-    int x = j * (numCols/852.0);
+    int x = j * (numCols/720.0);
     int y = i * (numRows/480.0);
   
     int indexAux = (x + y * numCols);
-    uchar4 px = rgbaImage[indexAux]; // thread pixel to process
-    greyImage[index + 2] = px.x; 
-    greyImage[index + 1] = px.y; 
-    greyImage[index] = px.z;
+    uchar4 px = originalImage[indexAux]; // thread pixel to process
+    outImage[index + 2] = px.x; 
+    outImage[index + 1] = px.y; 
+    outImage[index] = px.z;
     
   }
 }
