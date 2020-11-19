@@ -25,8 +25,8 @@ int main(int argc, char **argv) {
   std::string input_file;
   std::string output_file;
   
-  int threads = int(argv[2]);
-  int blocks = int(argv[3]);
+  std::int32_t threads = std::int32_t(argv[2]);
+  std::int32_t blocks = std::int32_t(argv[3]);
 
   //make sure the context initializes ok
   checkCudaErrors(cudaFree(0));
