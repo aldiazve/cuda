@@ -16,5 +16,5 @@ file( GLOB  hdr *.hpp *.h )
 file( GLOB  cu  *.cu)
 SET (to_bw_files main.cpp)
 
-CUDA_ADD_EXECUTABLE(to_bw ${to_bw_files} ${hdr} ${cu})
-target_link_libraries(to_bw ${OpenCV_LIBS})
+CUDA_ADD_EXECUTABLE(reduce ${to_bw_files} ${hdr} ${cu})
+target_link_libraries(reduce ${OpenCV_LIBS})
