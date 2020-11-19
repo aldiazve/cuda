@@ -24,6 +24,9 @@ int main(int argc, char **argv) {
 
   std::string input_file;
   std::string output_file;
+  
+  int threads = int(argv[2]);
+  int blocks = int(argv[3]);
 
   //make sure the context initializes ok
   checkCudaErrors(cudaFree(0));
@@ -36,7 +39,7 @@ int main(int argc, char **argv) {
 
   //call the cuda code
   cudaEventRecord(start);
-  rgba_to_grey(d_rgbaImage, d_greyImage, numRows(), numCols(),std::int(argv[2]),std::int(argv[3]));
+  rgba_to_grey(d_rgbaImage, d_greyImage, numRows(), numCols(), threads, blocks);
   cudaEventRecord(stop);
   cudaEventSynchronize(stop);
 
